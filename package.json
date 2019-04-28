@@ -1,0 +1,51 @@
+{
+  "name": "ru-plurals",
+  "version": "1.1.0",
+  "description": "Pluralization of russian words",
+  "author": "none23 <n.anisimov.23@gmail.com> (https://github.com/none23)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/none23/ru-plural.git"
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "jest src",
+    "test-watch": "jest --watch-all",
+    "lint-staged": "lint-staged",
+    "lint": "eslint",
+    "lint-fix": "yarn lint --fix",
+    "flow": "flow focus-check",
+    "prebuild": "rm -f lib/*",
+    "build": "babel src/ --out-dir lib --ignore 'src/*.test.js'",
+    "postbuild": "flow-copy-source --ignore=*.test.js src lib"
+  },
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "*.js": [
+      "yarn test",
+      "yarn lint",
+      "yarn flow",
+      "git-add"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-flow": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.7.1",
+    "eslint": "^5.16.0",
+    "eslint-config-none23": "^8.1.2",
+    "flow-bin": "^0.98.0",
+    "flow-copy-source": "^2.0.3",
+    "jest": "^24.7.1",
+    "lint-staged": "^8.1.5",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.17.0"
+  }
+}

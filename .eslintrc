@@ -1,0 +1,9 @@
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "jest": true,
+    "browser": false,
+  },
+  "extends": ["none23"]
+}
