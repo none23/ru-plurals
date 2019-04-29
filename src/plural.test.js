@@ -3,36 +3,37 @@ import plural from './plural';
 
 // nouns
 const ruble = plural('рубль', 'рубля', 'рублей');
-const meter = plural('метр', 'метра', 'метров');
 const seat = plural('место', 'места', 'мест');
 const purchase = plural('покупка', 'покупки', 'покупок');
+
+// verbs/adjectives
+const work = plural('работает', 'работают');
+const matching = plural('подходящий', 'подходящиx');
+const selected = plural('выбранной', 'выбранных');
+
+// single word
+const coffee = plural('кофе');
 
 describe.each([
   [ruble, 0, 'рублей'],
   [ruble, 1, 'рубль'],
   [ruble, 2, 'рубля'],
   [ruble, 5, 'рублей'],
-  [ruble, 50, 'рублей'],
+  [ruble, 11, 'рублей'],
+  [ruble, 12, 'рублей'],
+  [ruble, 13, 'рублей'],
   [ruble, 101, 'рубль'],
   [ruble, 234, 'рубля'],
   [ruble, 980, 'рублей'],
   [ruble, 4000, 'рублей'],
   [ruble, 5561, 'рубль'],
-  [meter, 0, 'метров'],
-  [meter, 1, 'метр'],
-  [meter, 2, 'метра'],
-  [meter, 5, 'метров'],
-  [meter, 50, 'метров'],
-  [meter, 101, 'метр'],
-  [meter, 234, 'метра'],
-  [meter, 980, 'метров'],
-  [meter, 4000, 'метров'],
-  [meter, 5561, 'метр'],
   [seat, 0, 'мест'],
   [seat, 1, 'место'],
   [seat, 2, 'места'],
   [seat, 5, 'мест'],
-  [seat, 50, 'мест'],
+  [seat, 11, 'мест'],
+  [seat, 12, 'мест'],
+  [seat, 13, 'мест'],
   [seat, 101, 'место'],
   [seat, 234, 'места'],
   [seat, 980, 'мест'],
@@ -42,7 +43,9 @@ describe.each([
   [purchase, 1, 'покупка'],
   [purchase, 2, 'покупки'],
   [purchase, 5, 'покупок'],
-  [purchase, 50, 'покупок'],
+  [purchase, 11, 'покупок'],
+  [purchase, 12, 'покупок'],
+  [purchase, 13, 'покупок'],
   [purchase, 101, 'покупка'],
   [purchase, 234, 'покупки'],
   [purchase, 980, 'покупок'],
@@ -57,17 +60,14 @@ describe.each([
   });
 });
 
-// verbs/adjectives
-const work = plural('работает', 'работают');
-const matching = plural('подходящий', 'подходящиx');
-const selected = plural('выбранной', 'выбранных');
-
 describe.each([
   [work, 0, 'работают'],
   [work, 1, 'работает'],
   [work, 2, 'работают'],
   [work, 5, 'работают'],
-  [work, 50, 'работают'],
+  [work, 11, 'работают'],
+  [work, 12, 'работают'],
+  [work, 13, 'работают'],
   [work, 101, 'работает'],
   [work, 234, 'работают'],
   [work, 980, 'работают'],
@@ -77,7 +77,9 @@ describe.each([
   [matching, 1, 'подходящий'],
   [matching, 2, 'подходящиx'],
   [matching, 5, 'подходящиx'],
-  [matching, 50, 'подходящиx'],
+  [matching, 11, 'подходящиx'],
+  [matching, 12, 'подходящиx'],
+  [matching, 13, 'подходящиx'],
   [matching, 101, 'подходящий'],
   [matching, 234, 'подходящиx'],
   [matching, 980, 'подходящиx'],
@@ -87,7 +89,9 @@ describe.each([
   [selected, 1, 'выбранной'],
   [selected, 2, 'выбранных'],
   [selected, 5, 'выбранных'],
-  [selected, 50, 'выбранных'],
+  [selected, 11, 'выбранных'],
+  [selected, 12, 'выбранных'],
+  [selected, 13, 'выбранных'],
   [selected, 101, 'выбранной'],
   [selected, 234, 'выбранных'],
   [selected, 980, 'выбранных'],
@@ -102,15 +106,14 @@ describe.each([
   });
 });
 
-// single word
-const coffee = plural('кофе');
-
 describe.each([
   [coffee, 0, 'кофе'],
   [coffee, 1, 'кофе'],
   [coffee, 2, 'кофе'],
   [coffee, 5, 'кофе'],
-  [coffee, 50, 'кофе'],
+  [coffee, 11, 'кофе'],
+  [coffee, 12, 'кофе'],
+  [coffee, 13, 'кофе'],
   [coffee, 101, 'кофе'],
   [coffee, 234, 'кофе'],
   [coffee, 980, 'кофе'],
@@ -124,3 +127,13 @@ describe.each([
     expect(wordPlural(number)).toBe(result);
   });
 });
+
+describe.each(
+  ['a', 'foo', {}, [], new Map(), new Date(), new Promise(() => 1)],
+  'plural throws when the number is invalid',
+  invalidArg => {
+    test(`(${String(invalidArg)}) throws`, () => {
+      expect(coffee(invalidArg)).toThrow();
+    });
+  },
+);

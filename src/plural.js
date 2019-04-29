@@ -1,12 +1,18 @@
 // @flow strict
 
-opaque type PositiveInt = number;
+opaque type AbsInt = number;
 
-function toPositiveInt(number: ?number): PositiveInt {
-  return Math.abs(parseInt(number, 10));
+export type Numberlike = number | string | null | void;
+export type Declensions = [string, string, string];
+export type Plural = (number: ?number) => string;
+
+function absInt(number: Numberlike): AbsInt {
+  const int = Math.abs(parseInt(number, 10) || 0);
+  if (Number.isNaN(int)) {
+    throw new TypeError('Invalid number');
+  }
+  return int;
 }
-
-type Declensions = [string, string, string];
 
 function declensions(one: string, _two?: string, _five?: string): Declensions {
   const two = typeof _two === 'undefined' ? one : _two;
@@ -14,7 +20,7 @@ function declensions(one: string, _two?: string, _five?: string): Declensions {
   return [one, two, five];
 }
 
-function pluralize(int: PositiveInt, _declensions: Declensions) {
+function pluralize(int: AbsInt, _declensions: Declensions) {
   return _declensions[
     int % 100 > 4 && int % 100 < 20
       ? 2
@@ -22,11 +28,9 @@ function pluralize(int: PositiveInt, _declensions: Declensions) {
   ];
 }
 
-export type Plural = (number: ?number) => string;
-
 function plural(one: string, two?: string, five?: string): Plural {
-  return (number: ?number) =>
-    pluralize(toPositiveInt(number), declensions(one, two, five));
+  return (number: Numberlike) =>
+    pluralize(absInt(number), declensions(one, two, five));
 }
 
 export default plural;
