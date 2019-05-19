@@ -14,39 +14,33 @@ yarn add ru-plurals
 ```
 
 ## Usage
-#### plural
+#### default format
 ```ts
-import { plural } from 'ru-plurals';
+import plural from 'ru-plurals';
 
 const ruble = plural('рубль', 'рубля', 'рублей');
 const work = plural('работает', 'работают'); // same as plural('работает', 'работают', 'работают');
 const coffee = plural('кофе'); // same as plural('кофе', 'кофе', 'кофе')
 
-ruble(101) // 'рубль'
-ruble(500) // 'рублей'
-work(21) // 'работает'
-coffee(2) // 'кофе'
+ruble(101) // => '101 рубль'
+ruble(500) // => '500 рублей'
+coffee(2) // => '2 кофе'
 ```
-#### format
+#### custom format
 ```ts
 import { format } from 'ru-plurals';
 
+const ruble = plural('рубль', 'рубля', 'рублей');
+const work = plural('работает', 'работают'); // same as plural('работает', 'работают', 'работают');
+const coffee = plural('кофе'); // same as plural('кофе', 'кофе', 'кофе')
+
 const meters = format((count, word) => `${count} {word}`, 'метр', 'метра', 'метров');
 
-meters(1) // '1 метр'
-meters(200) // '200 метров'
-```
-with jsx:
-```ts
-const distance = format(
-  (count, word) => (
-    <div>
-      <div>{count}</div>
-      <span>{word}</span>
-    </div>
-  ),
-  'метр',
-  'метра',
-  'метров',
-);
+meters(1) // => '1 метр'
+meters(200) // => '200 метров'
+
+// JSX
+const distance = format((count, word) => <>{count}&nbsp;<em>{word}</em></>, 'метр', 'метра', 'метров');
+
+distance(10) // => <>10&nbsp;<em>метров</em></>
 ```
