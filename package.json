@@ -1,6 +1,6 @@
 {
   "name": "ru-plurals",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Pluralization of russian words",
   "author": "none23 <n.anisimov.23@gmail.com> (https://github.com/none23)",
   "license": "MIT",
@@ -9,9 +9,10 @@
     "url": "git+https://github.com/none23/ru-plural.git"
   },
   "files": [
-    "lib"
+    "index.js",
+    "index.js.flow",
+    "index.d.ts"
   ],
-  "main": "index.js",
   "scripts": {
     "test": "jest src",
     "test-watch": "jest --watch-all",
@@ -19,9 +20,8 @@
     "lint": "eslint",
     "lint-fix": "yarn lint --fix",
     "flow": "flow focus-check",
-    "prebuild": "rm -f lib/*",
-    "build": "babel src/ --out-dir lib --ignore 'src/*.test.js'",
-    "postbuild": "flow-copy-source --ignore=*.test.js src lib"
+    "build": "babel src/ --out-dir . --ignore 'src/*.test.js'",
+    "postbuild": "flow-copy-source --ignore=*.test.js src ."
   },
   "pre-commit": "lint-staged",
   "lint-staged": {

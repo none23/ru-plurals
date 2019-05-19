@@ -1,5 +1,6 @@
+import { defaultFormat, plural, format } from '.';
+
 /* eslint-disable sonarjs/no-duplicate-string */
-import plural from './plural';
 
 // nouns
 const ruble = plural('рубль', 'рубля', 'рублей');
@@ -137,3 +138,30 @@ describe.each(
     });
   },
 );
+
+// formatting
+const joinDash = (number, word) => `${number}-${word}`;
+const joinSpace = (number, word) => `${number} ${word}`;
+const skipZero = (number, word) => (number > 0 ? `${number} ${word}` : '-');
+
+describe.each([
+  [joinDash, ['рубль', 'рубля', 'рублей'], 0, '0-рублей'],
+  [joinSpace, ['метр', 'метра', 'метров'], 1, '1 метр'],
+  [skipZero, ['кофе'], 0, '-'],
+  [skipZero, ['место', 'места', 'мест'], 55, '55 мест'],
+])('format', (formatter, words, number, result) => {
+  test('works', () => {
+    expect(format(formatter, ...words)(number)).toBe(result);
+  });
+});
+
+describe.each([
+  [['рубль', 'рубля', 'рублей'], 0, '0 рублей'],
+  [['метр', 'метра', 'метров'], 1, '1 метр'],
+  [['кофе'], 0, '0 кофе'],
+  [['место', 'места', 'мест'], 55, '55 мест'],
+])('formatDefault', (words, number, result) => {
+  test('works', () => {
+    expect(defaultFormat(...words)(number)).toBe(result);
+  });
+});
